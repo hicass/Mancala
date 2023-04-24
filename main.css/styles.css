@@ -18,8 +18,8 @@ header {
 }
 
 h1 {
-    font-size: 8vmin;
-    margin-top: 5vmin;
+    font-size: 7vmin;
+    margin-top: 1vmin;
 }
 
 #board {
@@ -27,32 +27,22 @@ h1 {
     grid-template-rows: repeat(2, 10vmin, 10vmin);
     grid-template-columns: repeat(8, 10vmin);
     font-size: 10vmin;
-    text-align: center;
     align-items: center;
     gap: 5vmin;
     z-index: 2;
     background-image: url(/graphics/board.PNG);
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: 100% 63%;
+    background-position: 100% 60%;
     padding: 15vmin;
     margin: -7vmin;
 }
 
 #board > div {
-    border-color: rgb(255, 243, 224);
-    border-style: solid;
-    height: 15vmin;
+    display: flex;
+    justify-content: center;
 }
 
-#store1 {
-    grid-row: span 2;
-    height: 0vmin;
-}
-
-#store2 {
-    grid-row: span 2;
-}
 
 #board-img {
     display: inline-block;
@@ -65,7 +55,87 @@ h1 {
 }
 
 #hand {
-    font-size: 13vmin;
+    font-size: 8vmin;
     z-index: 3;
-    margin-top: vmin;
+}
+
+button {
+    font-size: 5vmin;
+    background-color: rgba(255, 243, 224, 20%);
+    color: rgb(26, 25, 25);
+    border-radius: 15px;
+    border: 0;
+}
+
+#store1 {
+    grid-row: span 2;
+    width: 9vmin;
+    height: 27vmin;
+}
+
+#store2 {
+    grid-row: span 2;
+    margin-left: 2vmin;
+    width: 9vmin;
+    height: 27vmin;
+}
+
+#p1 {
+    height: 14vmin;
+    margin-bottom: -10vmin;
+}
+
+#p2 {
+    height: 15vmin;
+    margin-bottom: -11vmin;
+}
+
+#p3, #p4 {
+    height: 14vmin;
+    margin-bottom: -12vmin;
+}
+
+#p5 {
+    height: 15vmin;
+    width: 9vmin;
+    margin-bottom: -11vmin;
+    margin-left: 1vmin;
+    
+}
+
+#p6 {
+    height: 13vmin;
+    margin-bottom: -12vmin;
+    margin-left: 1vmin;
+}
+
+#p8 {
+    height: 13vmin;
+    margin-top: 9vmin;
+}
+
+#p9 {
+    height: 14vmin;
+    margin-top: 12vmin;
+}
+
+#p10 {
+    height: 14vmin;
+    width: 10vmin;
+    margin-top: 12vmin;
+    margin-left: 1vmin;
+}
+
+#p11 {
+    height: 14vmin;
+    width: 9vmin;
+    margin-top: 12vmin;
+    margin-left: 2vmin;
+}
+
+#p12, #p13 {
+    height: 13vmin;
+    width: 9vmin;
+    margin-top: 10vmin;
+    margin-left: 1vmin;
 }
