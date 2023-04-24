@@ -43,7 +43,6 @@ h1 {
     justify-content: center;
 }
 
-
 #board-img {
     display: inline-block;
     width: 80%;
@@ -67,18 +66,12 @@ button {
     border: 0;
 }
 
-#store1 {
+#p0 {
     grid-row: span 2;
     width: 9vmin;
     height: 27vmin;
 }
 
-#store2 {
-    grid-row: span 2;
-    margin-left: 2vmin;
-    width: 9vmin;
-    height: 27vmin;
-}
 
 #p1 {
     height: 14vmin;
@@ -107,6 +100,13 @@ button {
     height: 13vmin;
     margin-bottom: -12vmin;
     margin-left: 1vmin;
+}
+
+#p7 {
+    grid-row: span 2;
+    margin-left: 2vmin;
+    width: 9vmin;
+    height: 27vmin;
 }
 
 #p8 {

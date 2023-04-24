@@ -1,51 +1,112 @@
 /*----- constants -----*/
 // 1. Define required constants
 // 1.1 The Players and their info
+const PLAYERS = {
+    '1': '/graphics/sun.PNG',
+    '2': '/graphics/moon.PNG'
+}
 
 /*----- state variables -----*/
 // 2. Define the variables that are used to track the game
 // 2.1 The board holes 
+let board = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 // 2.4 The players hand
+let playerHand;
 // 2.5 A winner (Player 1, 2, or Tie)
+let winner;
 // 2.6 Who's turn it is
+let turn;
 
 /*----- cached elements  -----*/
 // 3. Store page Els that will be used multiple times:
 // 3.1 The 12 main holes on the board
-// 3.2 The 2 home base holes on the left and right of the board
-// 3.3 The element that shoes how many pebbles are in whatever
-// hole the mouse is hovering over
-// 3.4 The element that displays who's turn it is/ win results
-// 3.5 The play again button
-// 3.6 The pebbles
+const boardEls = [...document.querySelectorAll('#board > div')];
+// 3.2 The 'hand' element that shows how many pebbles are in whatever
+// pit the mouse is hovering over
+const handEl = document.querySelector('#hand');
+// 3.3 The element that displays who's turn it is/ win results
+const messageEl = document.querySelector('h1')
+// 3.4 The play again button
+const btn = document.querySelector('button')
+// 3.5 The pebbles ???
 
 /*----- event listeners -----*/
+document.getElementById('board').addEventListener('click', playerSelects)
 
 /*----- functions -----*/
 // 4. Initialize the state variables
+init();
   // 4.1 Initialize the state variables:
-	  // 4.1.1 The game starts with empty home bases
-		// 4.1.2 The game starts with each main hole having 4 pebbles
+function init() {
+    // 4.1.1 The game starts with empty home bases
+    // 4.1.2 The game starts with each main hole having 4 pebbles
+    board = [0, 4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4,];
     // 4.1.3 The game starts with player 1
+    turn = 1;
     // 4.1.4 The winner is null
+    winner = null;
     // 4.1.5 The players hand is empty
-  // 4.2 Render the state variables to page:
-    // 4.2.1 Render the board:
+    hand = 0;
+    // 4.2 Render the state variables to page:
+    render();
+}
+
+function render() {
+    renderBoard();
+    renderMessage();
+}
+
+// 4.2.1 Render the board:
+function renderBoard() {
     // 4.2.1.1 Loop over the main holes array, and for each iteration:
-      // 4.2.1.2 Use the number of that iteration to update the hole at
-      // that index, and update its value to match data
-			// 4.2.1.3 Use the value to display according amount of pebbles
-      // 4.2.1.2 Use the home-base value to update its visible pebbles
-    // 4.2.2. Render the message:
-		  // 4.2.2.1 If winner is null, render who's turn it is
-      // 4.2.2.2 If winner is 'T', render a tie message
-      // 4.2.2.3 If winner is not null, render congrats msg
-  // 4.3 Wait for user to click a hole
+    board.forEach((boardVal, idx) => {
+        console.log('board val',boardVal);
+        console.log('index', idx);
+        // 4.2.1.2 Use the number of that iteration to update the hole at
+        // that index, and update its value to match data
+        const pitEl = document.getElementById(`p${idx}`)
+        // 4.2.1.3 Use the value to display according amount of pebbles
+        pitEl.innerText = boardVal;
+        // 4.2.1.2 Use the home-base value to update its visible pebbles ?????
+    });
+}
+
+// 4.2.2. Render the message:
+function renderMessage() {
+    // 4.2.2.1 If winner is null, render who's turn it is
+    if (winner === null) {
+        messageEl.innerText = `Player ${turn}'s turn...`
+    }
+    // 4.2.2.2 If winner is 'T', render a tie message
+    if (winner === 'T') {
+        messageEl.innerText = `It's a tie!`
+    }
+    // 4.2.2.3 If winner is not null, render congrats msg
+    if (winner === 1 || winner === 2) {
+        messageEl.innerText = `Congrats! Player ${winner} wins!`
+    }
+    // 4.3 Wait for user to click a hole
+}
 
 // 5. Handle a player clicking a hole
- // 5.1 Players hand gets updated with the amount of pebbles in that hole
- // 5.2 Player deposits one of the pebbles in each hole going counter clock-
- // wise, until the hand is 0
+function playerSelects(pitChoice) {
+    const pitIdx = boardEls.indexOf(pitChoice.target); // Saving the index of the pit that was chosen
+    if (pitIdx === -1) return; // Returning is what was clicked isn't a pit
+    console.log(pitChoice.target);
+    console.log(pitIdx);
+    console.log(board[pitIdx]);
+    // 5.1 Players hand gets updated with the amount of pebbles in that hole
+    hand = board[pitIdx]; // Updating the value of hand to the corresponding value in the board pit that was chosen
+    handEl.innerText = hand; // Updating the hand element text to match
+    board[pitIdx] = 0; // Updating the value of the board pit that was chosen to 0
+    pitChoice.target.innerText = 0; // Updating text of the pit choice to 0
+    // 5.2 Player deposits one of the pebbles in each hole going counter clock- 
+    // wise, until the hand is 0
+    for (i = hand; i >= 0; i--) {
+    console.log(i);
+    handEl.innerText = i;
+    } 
+}
 	 // 5.2.1 If it's their opponents hole, it gets skipped
    // 5.2.2 If it's their own hole, they place a pebble in it
      // 5.2.2.1 If it's their last pebble being placed into their own hole
