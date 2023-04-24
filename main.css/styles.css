@@ -72,33 +72,18 @@ button {
     height: 27vmin;
 }
 
-
-#p1 {
+#p1, #p2, #p3, #p4 {
     height: 14vmin;
-    margin-bottom: -10vmin;
-}
-
-#p2 {
-    height: 15vmin;
-    margin-bottom: -11vmin;
-}
-
-#p3, #p4 {
-    height: 14vmin;
-    margin-bottom: -12vmin;
 }
 
 #p5 {
     height: 15vmin;
     width: 9vmin;
-    margin-bottom: -11vmin;
     margin-left: 1vmin;
-    
 }
 
 #p6 {
     height: 13vmin;
-    margin-bottom: -12vmin;
     margin-left: 1vmin;
 }
 
@@ -111,31 +96,27 @@ button {
 
 #p8 {
     height: 13vmin;
-    margin-top: 9vmin;
+    margin-left: 1vmin;
 }
 
 #p9 {
     height: 14vmin;
-    margin-top: 12vmin;
 }
 
 #p10 {
-    height: 14vmin;
+    height: 13vmin;
     width: 10vmin;
-    margin-top: 12vmin;
     margin-left: 1vmin;
 }
 
 #p11 {
     height: 14vmin;
     width: 9vmin;
-    margin-top: 12vmin;
     margin-left: 2vmin;
 }
 
 #p12, #p13 {
     height: 13vmin;
     width: 9vmin;
-    margin-top: 10vmin;
     margin-left: 1vmin;
 }
