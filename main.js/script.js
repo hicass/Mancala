@@ -3,7 +3,7 @@
 // 1.1 The Players and their info
 const PLAYERS = {
     '1': '/graphics/sun.PNG',
-    '2': '/graphics/moon.PNG'
+    '-1': '/graphics/moon.PNG'
 }
 
 /*----- state variables -----*/
@@ -32,6 +32,7 @@ const btn = document.querySelector('button')
 
 /*----- event listeners -----*/
 document.getElementById('board').addEventListener('click', playerSelects)
+document.querySelector('button').addEventListener('click', init)
 
 /*----- functions -----*/
 // 4. Initialize the state variables
@@ -54,14 +55,13 @@ function init() {
 function render() {
     renderBoard();
     renderMessage();
+    renderHand();
 }
 
 // 4.2.1 Render the board:
 function renderBoard() {
     // 4.2.1.1 Loop over the main holes array, and for each iteration:
     board.forEach((boardVal, idx) => {
-        console.log('board val',boardVal);
-        console.log('index', idx);
         // 4.2.1.2 Use the number of that iteration to update the hole at
         // that index, and update its value to match data
         const pitEl = document.getElementById(`p${idx}`)
@@ -70,6 +70,12 @@ function renderBoard() {
         // 4.2.1.2 Use the home-base value to update its visible pebbles ?????
     });
 }
+
+function renderHand() {
+    // Updating the hand element text to match data
+    handEl.innerText = hand;
+}
+
 
 // 4.2.2. Render the message:
 function renderMessage() {
@@ -82,7 +88,7 @@ function renderMessage() {
         messageEl.innerText = `It's a tie!`
     }
     // 4.2.2.3 If winner is not null, render congrats msg
-    if (winner === 1 || winner === 2) {
+    if (winner === 1 || winner === -1) {
         messageEl.innerText = `Congrats! Player ${winner} wins!`
     }
     // 4.3 Wait for user to click a hole
@@ -91,21 +97,50 @@ function renderMessage() {
 // 5. Handle a player clicking a hole
 function playerSelects(pitChoice) {
     const pitIdx = boardEls.indexOf(pitChoice.target); // Saving the index of the pit that was chosen
-    if (pitIdx === -1) return; // Returning is what was clicked isn't a pit
-    console.log(pitChoice.target);
-    console.log(pitIdx);
-    console.log(board[pitIdx]);
+    const pitElement = pitChoice.target
+    const pitValue = board[pitIdx];
+    if (pitIdx === -1) return; // Returning if what was clicked isn't a pit
+    if (!pitElement.classList.contains(`m${turn}`)) return; // Return if what was clicked isn't on the players side
     // 5.1 Players hand gets updated with the amount of pebbles in that hole
     hand = board[pitIdx]; // Updating the value of hand to the corresponding value in the board pit that was chosen
-    handEl.innerText = hand; // Updating the hand element text to match
     board[pitIdx] = 0; // Updating the value of the board pit that was chosen to 0
-    pitChoice.target.innerText = 0; // Updating text of the pit choice to 0
+    dropPebbles(hand, pitIdx);
+    render();
+}
+
+function dropPebbles(hand, idx) {
     // 5.2 Player deposits one of the pebbles in each hole going counter clock- 
     // wise, until the hand is 0
-    for (i = hand; i >= 0; i--) {
-    console.log(i);
-    handEl.innerText = i;
-    } 
+    for (i = hand; i > 0; i--) {
+        console.log(i)
+        console.log('idx', idx)
+        console.log('hand:', hand)
+        if (idx === 0) {
+            idx = 8
+            // board[idx]++
+            // hand--
+            console.log('idx === 0')
+        }
+        if (idx === 13) {
+            idx = 7
+            board[idx]++
+            idx = 6
+            console.log('idx === 13')
+        }
+        if (idx >= 7) {
+            idx++
+            board[idx]++
+            hand--
+            console.log('idx > 7')
+        }
+        if (idx < 8) {
+            idx--
+            board[idx]++
+            hand--
+            console.log('idx < 8')
+        }
+    }
+    checkForWinner();
 }
 	 // 5.2.1 If it's their opponents hole, it gets skipped
    // 5.2.2 If it's their own hole, they place a pebble in it
@@ -116,6 +151,11 @@ function playerSelects(pitChoice) {
  // 5.3 Check for a winner
 
 // 6. Checking for a winner:
+function checkForWinner() {
+    if (winner === null) {
+        turn *= -1;
+    }
+}
  // 6.1 Check if six pockets on one side are empty:
   // 6.1.1 If yes the other players takes whatever pebbles are left on
   // their side
