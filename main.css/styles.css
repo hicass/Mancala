@@ -66,28 +66,28 @@ button {
     border: 0;
 }
 
-#p0 {
+#p7 {
     grid-row: span 2;
     width: 9vmin;
     height: 27vmin;
 }
 
-#p1, #p2, #p3, #p4 {
+#p6, #p5, #p4, #p3 {
     height: 14vmin;
 }
 
-#p5 {
+#p2 {
     height: 15vmin;
     width: 9vmin;
     margin-left: 1vmin;
 }
 
-#p6 {
+#p1 {
     height: 13vmin;
     margin-left: 1vmin;
 }
 
-#p7 {
+#p0 {
     grid-row: span 2;
     margin-left: 2vmin;
     width: 9vmin;
