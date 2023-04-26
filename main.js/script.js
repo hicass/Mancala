@@ -1,6 +1,7 @@
 /*----- constants -----*/
 // 1. Define required constants
 // 1.1 The Players and their info
+
 const PLAYERS = {
     '1': '/graphics/sun.PNG',
     '-1': '/graphics/moon.PNG'
@@ -16,6 +17,7 @@ class Pit {
 
 /*----- state variables -----*/
 // 2. Define the variables that are used to track the game
+// let player
 // 2.1 The board holes 
 let board;
 // 2.4 The players hand
@@ -101,7 +103,7 @@ function renderHand() {
 function renderMessage() {
     // 4.2.2.1 If winner is null, render who's turn it is
     if (winner === null) {
-        messageEl.innerText = `Player ${turn}'s turn...`
+        messageEl.innerHTML = `<h1><img src='${PLAYERS[turn]}' alt='picture' height='50vmin' width='50vmin'/>'s turn...</h1>`
     }
     // 4.2.2.2 If winner is 'T', render a tie message
     if (winner === 'T') {
@@ -129,62 +131,53 @@ function playerSelects(pitElClicked) {
 }
 
 function dropPebbles(hand, pit) {
-    console.log(pit)
-    checkForWinner();
+    let pitArrIdx = board.indexOf(pit)
     // 5.2 Player deposits one of the pebbles in each hole going counter clock- 
     // wise, until the hand is 0
+    for (i = hand; i > 0; i--) {
+        // 5.2.1 If it's their opponents store, it gets skipped
+        if (board[pitArrIdx].pitType === `store${turn * -1}`) {
+            --board[pitArrIdx].pebbles; 
+            pitArrIdx++;
+            ++hand;
+        }
+        if (pitArrIdx > 0 && pitArrIdx < 13) {
+            pitArrIdx++;
+            ++board[pitArrIdx].pebbles;
+            hand--;
+        } else if (pitArrIdx === 13) {
+            pitArrIdx = 0;
+            ++board[pitArrIdx].pebbles;
+            hand--;
+        } else if (pitArrIdx === 0) {
+            pitArrIdx++;
+            ++board[pitArrIdx].pebbles;
+        } 
+        // 5.2.2.1 If it's their last pebble being placed into their own hole
+        // they play again
+        if (i === 1 && board[pitArrIdx].pitType === `store${turn}`) {
+            turn *= -1;
+        }
+    }
+    // 5.2.3 If the last piece is dropped in an empty hole on the players side
+    // they get to take the pebbles on the opposing side if any
+    // 5.3 Check for a winner
+    checkForWinner();
 }
-
-// 5.2.1 If it's their opponents hole, it gets skipped
-// 5.2.2 If it's their own hole, they place a pebble in it
-// for (i = hand; i > 0; i--) {
-//     console.log(i)
-//     console.log('idx', idx)
-//     console.log('hand:', hand)
-//     if (idx === 0) {
-//         idx = 8
-//         // board[idx]++
-//         // hand--
-//         console.log('idx === 0')
-//     }
-//     if (idx === 13) {
-//         idx = 7
-//         board[idx]++
-//         idx = 6
-//         console.log('idx === 13')
-//     }
-//     if (idx >= 7) {
-//         idx++
-//         board[idx]++
-//         hand--
-//         console.log('idx > 7')
-//     }
-//     if (idx < 8) {
-//         idx--
-//         board[idx]++
-//         hand--
-//         console.log('idx < 8')
-//     }
-// }
-     // 5.2.2.1 If it's their last pebble being placed into their own hole
-     // they play again
-   // 5.2.3 If the last piece is dropped in an empty hole on the players side
-   // they get to take the pebbles on the opposing side if any
- // 5.3 Check for a winner
 
 // 6. Checking for a winner:
 function checkForWinner() {
     if (winner === null) {
         turn *= -1;
     }
+    // 6.1 Check if six pockets on one side are empty:
+     // 6.1.1 If yes the other players takes whatever pebbles are left on
+     // their side
+    // 6.2 Check which player has the most pebbles
+     // 6.2.1 Winner gets updated to the player with the most pebbles
+     // 6.2.2 If player have equal amounts winner gets set to tie
+   // 6.3 Render the updated state
 }
- // 6.1 Check if six pockets on one side are empty:
-  // 6.1.1 If yes the other players takes whatever pebbles are left on
-  // their side
- // 6.2 Check which player has the most pebbles
-  // 6.2.1 Winner gets updated to the player with the most pebbles
-  // 6.2.2 If player have equal amounts winner gets set to tie
-// 6.3 Render the updated state
 
 // 7. Handle player clicking replay button:
   // 7.1 Step 4 and 4.2
