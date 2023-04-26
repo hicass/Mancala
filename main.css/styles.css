@@ -71,9 +71,15 @@ button {
     margin-top: -7vmin;
 }
 
+button:hover {
+    cursor: pointer;
+    background-color: rgba(255, 243, 224, 50%);
+}
+
 #playerIcon {
-    height: 50vmin;
-    width: 50vmin;
+    height: 15vmin;
+    width: 15vmin;
+    margin-bottom: -3vmin;
 }
 
 #p7 {
