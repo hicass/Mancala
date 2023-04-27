@@ -16,8 +16,8 @@ class Pit {
 }
 
 const PLAYERS = {
-    '1': new Player('/assets/sun.png', 'sun'), 
-    '-1': new Player('/assets/moon.png', 'moon') 
+    '1': new Player('/hicass/assets/sun.png', 'sun'), 
+    '-1': new Player('/hicass/assets/moon.png', 'moon') 
 }
 
 /*----- state variables -----*/
