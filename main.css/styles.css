@@ -70,7 +70,7 @@ button:hover {
     gap: 5vmin;
     margin: -7vmin;
     padding: 15vmin;
-    background-image: url(/hicass/assets/board.png);
+    background-image: url(assets/board.png);
     background-position: 100% 60%;
     background-repeat: no-repeat;
     background-size: cover;
