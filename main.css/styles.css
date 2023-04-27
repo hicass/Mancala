@@ -1,41 +1,80 @@
+:root {
+    --brown: rgb(26, 25, 25);
+    --light-brown: rgb(50, 50, 50);
+    --light-brown-faded60: rgba(50, 50, 50, 60%);
+    --beige: rgb(255, 243, 224);
+    --beige-faded30: rgba(255, 243, 224, 30%);
+    --beige-faded50: rgba(255, 243, 224, 50%);
+}
+
 * {
-    background-color: rgb(26, 25, 25);
-    color: rgb(255, 243, 224);
+    background-color: var(--brown);
+    color: var(--beige);
     font-family: 'Gaegu', cursive;
 }
 
 body {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    align-items: center;
 }
 
 header {
-    font-size: 10vmin;
     z-index: 4;
+    font-size: 10vmin;
 }
 
 h1 {
+    z-index: 3;
+    margin-top: -2vmin;
     font-size: 7vmin;
-    margin-top: 1vmin;
+}
+
+#hand {
+    visibility: hidden;
+    z-index: 4;
+    margin-top: 2vmin;
+    color: var(--beige-faded50);
+    font-size: 10vmin;
+}
+
+button {
+    z-index: 4;
+    margin-top: -6vmin;
+    border: 0;
+    border-radius: 15px;
+    background-color: var(--beige-faded30);
+    color: var(--brown);
+    font-size: 5vmin;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: var(--beige-faded50);
+}
+
+#playerIcon {
+    margin-bottom: -3vmin;
+    height: 15vmin;
+    width: 15vmin;
 }
 
 #board {
+    z-index: 2;
     display: grid;
     grid-template-rows: repeat(2, 10vmin, 10vmin);
     grid-template-columns: repeat(8, 10vmin);
-    font-size: 10vmin;
     align-items: center;
     gap: 5vmin;
-    z-index: 2;
-    background-image: url(/graphics/board.PNG);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: 100% 60%;
-    padding: 15vmin;
     margin: -7vmin;
+    padding: 15vmin;
+    background-image: url(/assets/board.png);
+    background-position: 100% 60%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-size: 10vmin;
 }
 
 #board > div {
@@ -47,60 +86,8 @@ h1 {
     cursor: pointer;
 }
 
-#board-img {
-    display: inline-block;
-    width: 80%;
-    height: auto;
-    margin-top: -20px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 0;
-}
-
-#hand {
-    font-size: 8vmin;
-    z-index: 3;
-}
-
-button {
-    font-size: 5vmin;
-    background-color: rgba(255, 243, 224, 20%);
-    color: rgb(26, 25, 25);
-    border-radius: 15px;
-    border: 0;
-    margin-top: -7vmin;
-}
-
-button:hover {
-    cursor: pointer;
-    background-color: rgba(255, 243, 224, 50%);
-}
-
-#playerIcon {
-    height: 15vmin;
-    width: 15vmin;
-    margin-bottom: -3vmin;
-}
-
-#p7 {
-    grid-row: span 2;
-    width: 9vmin;
-    height: 27vmin;
-}
-
-#p6, #p5, #p4, #p3 {
-    height: 14vmin;
-}
-
-#p2 {
-    height: 15vmin;
-    width: 9vmin;
-    margin-left: 1vmin;
-}
-
-#p1 {
-    height: 13vmin;
-    margin-left: 1vmin;
+.available {
+    animation: blinker 1s linear infinite;
 }
 
 #p0 {
@@ -108,11 +95,34 @@ button:hover {
     margin-left: 2vmin;
     width: 9vmin;
     height: 27vmin;
+    align-items: center;
+}
+
+#p1 {
+    margin-left: 1vmin;
+    height: 13vmin;
+}
+
+#p2 {
+    margin-left: 1vmin;
+    height: 15vmin;
+    width: 9vmin;
+}
+
+#p3, #p4, #p5, #p6 {
+    height: 14vmin;
+}
+
+#p7 {
+    grid-row: span 2;
+    width: 9vmin;
+    height: 27vmin;
+    align-items: center;
 }
 
 #p8 {
-    height: 13vmin;
     margin-left: 1vmin;
+    height: 13vmin;
 }
 
 #p9 {
@@ -120,19 +130,24 @@ button:hover {
 }
 
 #p10 {
+    margin-left: 1vmin;
     height: 13vmin;
     width: 10vmin;
-    margin-left: 1vmin;
 }
 
 #p11 {
+    margin-left: 2vmin;
     height: 14vmin;
     width: 9vmin;
-    margin-left: 2vmin;
 }
 
 #p12, #p13 {
+    margin-left: 1vmin;
     height: 13vmin;
     width: 9vmin;
-    margin-left: 1vmin;
+}
+
+@keyframes blinker {
+    0%, 49% {background: radial-gradient(var(--light-brown-faded60), var(--brown) 80%)}
+    50%, 100% {background-color:var(--brown)}
 }
