@@ -16,8 +16,8 @@ class Pit {
 }
 
 const PLAYERS = {
-    '1': new Player('assets/sun.png', 'sun'), 
-    '-1': new Player('assets/moon.png', 'moon') 
+    '1': new Player('assets/smiley.png', 'smiley face'), 
+    '-1': new Player('assets/cute.png', 'kiss face') 
 }
 
 /*----- state variables -----*/
@@ -58,7 +58,7 @@ function init() {
         new Pit('p12', 1, 'm-1', 'b'),
         new Pit('p13', 0, 'm-1', 'a')
     ]
-    turn = -1; 
+    turn = 1; 
     winner = null; 
     hand = 0; 
     render(); 
@@ -134,38 +134,41 @@ function dropPebbles(hand, pit) {
             --board[pitArrIdx].pebbles; 
             pitArrIdx++;
             ++hand;
+            console.log('skipped opponents store')
         } 
         // Player gets another turn if the last pebble is placed in their own store
         if (i === 1 && board[pitArrIdx].pitSide === `store${turn}`) {
             turn *= -1;
+            console.log('turned changed')
+        }
+        if (pitArrIdx === 13) { 
+            pitArrIdx = 0;
+            ++board[pitArrIdx].pebbles;
+            console.log('looped to 0')
+        } 
+        else {
+            ++pitArrIdx;
+            ++board[pitArrIdx].pebbles;
+            hand--;
+            console.log('else was hit')
         }
         // If the last pebble is dropped in an empty pit on the players side
         // the pebbles on the pairing pit on the opponents side gets added to the players store
         // Loop the index number back to 0 when it hits 13
         if (i === 1 && (board[pitArrIdx].pitSide === `m${turn}` && board[pitArrIdx].pebbles === 0)) {
-            console.log('im working1')
+            console.log('if pit 0 hit')
             pitArrIdx++
             ++board[pitArrIdx].pebbles;
             const pairLetter = board[pitArrIdx].pitPair;
             const pair = board.filter((pit) => pit.pitPair === pairLetter);
             const pairPebbles = pair.reduce((total, currentVal) => total + currentVal.pebbles, 0);
             const playerStore = board.find((pit) => pit.pitSide === `store${turn}`)
-            console.log(pair)
             if (pairPebbles > 1) {
                 playerStore.pebbles += pairPebbles;
                 pair.forEach((pit) => pit.pebbles = 0);
-                console.log('im working2')
-                continue;
+                console.log('if pit 0 works')
             }
-        }
-        if (pitArrIdx === 13) { 
-            pitArrIdx = 0;
-            ++board[pitArrIdx].pebbles;
-        } else {
-            ++pitArrIdx;
-            ++board[pitArrIdx].pebbles;
-            hand--;
-        }
+        } 
     }
     checkForWinner();
 }
