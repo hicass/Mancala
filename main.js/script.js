@@ -44,21 +44,21 @@ function init() {
     // Create a board array using the Pit class, with each pit starting with 4 pebbles
     board = [
         new Pit('p0', 0, 'store-1'),
-        new Pit('p1', 1, 'm1', 'a'),
-        new Pit('p2', 0, 'm1', 'b'),
-        new Pit('p3', 5, 'm1', 'c'),
-        new Pit('p4', 0, 'm1', 'd'),
-        new Pit('p5', 0, 'm1', 'e'),
-        new Pit('p6', 0, 'm1', 'f'),
+        new Pit('p1', 4, 'm1', 'a'),
+        new Pit('p2', 4, 'm1', 'b'),
+        new Pit('p3', 4, 'm1', 'c'),
+        new Pit('p4', 4, 'm1', 'd'),
+        new Pit('p5', 4, 'm1', 'e'),
+        new Pit('p6', 4, 'm1', 'f'),
         new Pit('p7', 0, 'store1'),
-        new Pit('p8', 0, 'm-1', 'f'),
-        new Pit('p9', 1, 'm-1', 'e'),
-        new Pit('p10', 2, 'm-1', 'd'),
-        new Pit('p11', 2, 'm-1', 'c'),
-        new Pit('p12', 1, 'm-1', 'b'),
-        new Pit('p13', 0, 'm-1', 'a')
+        new Pit('p8', 4, 'm-1', 'f'),
+        new Pit('p9', 4, 'm-1', 'e'),
+        new Pit('p10', 4, 'm-1', 'd'),
+        new Pit('p11', 4, 'm-1', 'c'),
+        new Pit('p12', 4, 'm-1', 'b'),
+        new Pit('p13', 1, 'm-1', 'a')
     ]
-    turn = 1; 
+    turn = -1; 
     winner = null; 
     hand = 0; 
     render(); 
@@ -134,18 +134,13 @@ function dropPebbles(hand, pit) {
             --board[pitArrIdx].pebbles; 
             pitArrIdx++;
             ++hand;
-            console.log('skipped opponents store')
         } 
-        // Player gets another turn if the last pebble is placed in their own store
-        if (i === 1 && board[pitArrIdx].pitSide === `store${turn}`) {
-            turn *= -1;
-            console.log('turned changed')
-        }
         // If the last pebble is dropped in an empty pit on the players side
         // the pebbles on the pairing pit on the opponents side gets added to the players store
         // Loop the index number back to 0 when it hits 13
-        if (i === 1 && (board[pitArrIdx].pitSide === `m${turn}` && board[pitArrIdx].pebbles === 0)) {
-            console.log('if pit 0 hit')
+        const nextIdx = pitArrIdx === 13 ? 0 : pitArrIdx + 1
+        const isNextPitStore = board[nextIdx].pitSide === `store${turn}`
+        if (i === 1 && (board[pitArrIdx].pitSide === `m${turn}` && !isNextPitStore && board[nextIdx].pebbles === 0)) {
             pitArrIdx++
             ++board[pitArrIdx].pebbles;
             const pairLetter = board[pitArrIdx].pitPair;
@@ -155,20 +150,20 @@ function dropPebbles(hand, pit) {
             if (pairPebbles > 1) {
                 playerStore.pebbles += pairPebbles;
                 pair.forEach((pit) => pit.pebbles = 0);
-                console.log('if pit 0 works')
             }
         } else if (pitArrIdx === 13) { 
             pitArrIdx = 0;
             ++board[pitArrIdx].pebbles;
-            console.log('looped to 0')
         } else {
             ++pitArrIdx;
             ++board[pitArrIdx].pebbles;
             hand--;
-            console.log('else was hit')
+        }
+        // Player gets another turn if the last pebble is placed in their own store
+        if (i === 1 && board[pitArrIdx].pitSide === `store${turn}`) {
+            turn *= -1;
         }
     }
-    console.log('-----------------')
     checkForWinner();
 }
 
