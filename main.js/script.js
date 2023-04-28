@@ -56,7 +56,7 @@ function init() {
         new Pit('p10', 4, 'm-1', 'd'),
         new Pit('p11', 4, 'm-1', 'c'),
         new Pit('p12', 4, 'm-1', 'b'),
-        new Pit('p13', 1, 'm-1', 'a')
+        new Pit('p13', 4, 'm-1', 'a')
     ]
     turn = -1; 
     winner = null; 
@@ -129,19 +129,18 @@ function dropPebbles(hand, pit) {
     let pitArrIdx = board.indexOf(pit);
     // Deposit one of the pebbles in each pit going counter clockwise until the hand is 0
     for (let i = hand; i > 0; i--) {
+        const nextIdx = pitArrIdx === 13 ? 0 : pitArrIdx + 1;
+        pitArrIdx = nextIdx;
         // If it's the opposing players store it get's skipped
         if (board[pitArrIdx].pitSide === `store${turn * -1}`) {
-            --board[pitArrIdx].pebbles; 
-            pitArrIdx++;
-            ++hand;
+            ++i;
+            continue;
         } 
         // If the last pebble is dropped in an empty pit on the players side
         // the pebbles on the pairing pit on the opponents side gets added to the players store
         // Loop the index number back to 0 when it hits 13
-        const nextIdx = pitArrIdx === 13 ? 0 : pitArrIdx + 1
         const isNextPitStore = board[nextIdx].pitSide === `store${turn}`
         if (i === 1 && (board[pitArrIdx].pitSide === `m${turn}` && !isNextPitStore && board[nextIdx].pebbles === 0)) {
-            pitArrIdx++
             ++board[pitArrIdx].pebbles;
             const pairLetter = board[pitArrIdx].pitPair;
             const pair = board.filter((pit) => pit.pitPair === pairLetter);
@@ -151,13 +150,8 @@ function dropPebbles(hand, pit) {
                 playerStore.pebbles += pairPebbles;
                 pair.forEach((pit) => pit.pebbles = 0);
             }
-        } else if (pitArrIdx === 13) { 
-            pitArrIdx = 0;
-            ++board[pitArrIdx].pebbles;
         } else {
-            ++pitArrIdx;
             ++board[pitArrIdx].pebbles;
-            hand--;
         }
         // Player gets another turn if the last pebble is placed in their own store
         if (i === 1 && board[pitArrIdx].pitSide === `store${turn}`) {
