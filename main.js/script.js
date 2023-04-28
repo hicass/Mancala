@@ -101,7 +101,7 @@ function renderMessage() {
     }
 }
 
-function playerClicks(pitElClicked) {
+async function playerClicks(pitElClicked) {
     const pitElId = pitElClicked.target.id; 
     const pitInArr = board.find((pit) => pit.pitId === pitElId); 
     if (pitElId === 'board') return; 
@@ -109,7 +109,8 @@ function playerClicks(pitElClicked) {
     if (pitInArr.pebbles === 0) return;
     hand = pitInArr.pebbles; // The pebbles in the pit get picked up by the hand
     pitInArr.pebbles = 0; // Pit now has no pebbles
-    dropPebbles(hand, pitInArr);
+    await dropPebbles(hand, pitInArr);
+    checkForWinner();
     render();
 }
 
@@ -125,7 +126,7 @@ function handHover(pitElOver) {
     handEl.innerText = pitInArr.pebbles;
 }
 
-function dropPebbles(hand, pit) {
+async function dropPebbles(hand, pit) {
     let pitArrIdx = board.indexOf(pit);
     // Deposit one of the pebbles in each pit going counter clockwise until the hand is 0
     for (let i = hand; i > 0; i--) {
@@ -157,8 +158,9 @@ function dropPebbles(hand, pit) {
         if (i === 1 && board[pitArrIdx].pitSide === `store${turn}`) {
             turn *= -1;
         }
+        await new Promise(resolvePromise => setTimeout(resolvePromise, 100));
+        render();
     }
-    checkForWinner();
 }
 
 function checkForWinner() {
