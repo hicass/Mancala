@@ -76,27 +76,27 @@ function renderBoard() {
         const pitEl = document.getElementById(pit.pitId);
         // If the pit is on the players side give it the available class
         if (pit.pitSide === `m${turn}`) { 
-            pitEl.setAttribute('class', 'available')
+            pitEl.setAttribute('class', 'available');
         } 
         // If the pit is not on the players side, if theres a winner, or if theres
         // no pebbles in the pit, remove the available class.
         if (pit.pitSide !== `m${turn}` || winner !== null || pit.pebbles === 0) {
-            pitEl.removeAttribute('class', 'available')
+            pitEl.removeAttribute('class', 'available');
         }
-        pitEl.innerText = pit.pebbles
+        pitEl.innerText = pit.pebbles;
     });
     btn.style.visibility = winner ? 'visible': 'hidden'; 
 }
 
 function renderMessage() {
     if (winner === null) {
-        messageEl.innerHTML = `<h1><img src='${PLAYERS[turn].playerIcon}' alt='${PLAYERS[turn].iconAlt}' id='playerIcon'/>'s turn...</h1>`
+        messageEl.innerHTML = `<h1><img src='${PLAYERS[turn].playerIcon}' alt='${PLAYERS[turn].iconAlt}' id='playerIcon'/>'s turn...</h1>`;
     }
     if (winner === 1 || winner === -1) {
-        messageEl.innerHTML = `<h1><img src='${PLAYERS[turn].playerIcon}' alt='${PLAYERS[turn].iconAlt}' id='playerIcon'/> wins!!!</h1>`
+        messageEl.innerHTML = `<h1><img src='${PLAYERS[turn].playerIcon}' alt='${PLAYERS[turn].iconAlt}' id='playerIcon'/> wins!!!</h1>`;
     }
     if (winner === 'T') {
-        messageEl.innerText = `It's a tie!`
+        messageEl.innerText = `It's a tie!`;
     }
 }
 
@@ -113,9 +113,9 @@ async function playerClicks(pitElClicked) {
     render();
 }
 
+// Deposit one of the pebbles in each pit going counter clockwise until the hand is 0
 async function dropPebbles(hand, pit) {
     let pitArrIdx = board.indexOf(pit);
-    // Deposit one of the pebbles in each pit going counter clockwise until the hand is 0
     for (let i = hand; i > 0; i--) {
         const nextIdx = pitArrIdx === 13 ? 0 : pitArrIdx + 1;
         pitArrIdx = nextIdx;
@@ -133,7 +133,7 @@ async function dropPebbles(hand, pit) {
             const pairLetter = board[pitArrIdx].pitPair;
             const pair = board.filter((pit) => pit.pitPair === pairLetter);
             const pairPebbles = pair.reduce((total, currentVal) => total + currentVal.pebbles, 0);
-            const playerStore = board.find((pit) => pit.pitSide === `store${turn}`)
+            const playerStore = board.find((pit) => pit.pitSide === `store${turn}`);
             if (pairPebbles > 1) {
                 playerStore.pebbles += pairPebbles;
                 pair.forEach((pit) => pit.pebbles = 0);
@@ -145,6 +145,8 @@ async function dropPebbles(hand, pit) {
         if (i === 1 && board[pitArrIdx].pitSide === `store${turn}`) {
             turn *= -1;
         }
+        // Referenced https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
+        // to add delay between state change rendering
         await new Promise(resolvePromise => setTimeout(resolvePromise, 100));
         render();
     }
