@@ -57,7 +57,7 @@ function init() {
         new Pit('p12', 4, 'm-1', 'b'),
         new Pit('p13', 4, 'm-1', 'a')
     ]
-    turn = -1; 
+    turn = 1; 
     winner = null; 
     hand = 0; 
     render(); 
