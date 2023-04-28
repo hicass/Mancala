@@ -34,7 +34,6 @@ const btn = document.querySelector('button');
 
 /*----- event listeners -----*/
 document.getElementById('board').addEventListener('click', playerClicks);
-document.getElementById('board').addEventListener('mouseover', handHover);
 document.querySelector('button').addEventListener('click', init);
 
 /*----- functions -----*/
@@ -43,20 +42,20 @@ init();
 function init() {
     // Create a board array using the Pit class, with each pit starting with 4 pebbles
     board = [
-        new Pit('p0', 0, 'store-1'),
-        new Pit('p1', 4, 'm1', 'a'),
-        new Pit('p2', 4, 'm1', 'b'),
-        new Pit('p3', 4, 'm1', 'c'),
-        new Pit('p4', 4, 'm1', 'd'),
-        new Pit('p5', 4, 'm1', 'e'),
-        new Pit('p6', 4, 'm1', 'f'),
-        new Pit('p7', 0, 'store1'),
-        new Pit('p8', 4, 'm-1', 'f'),
-        new Pit('p9', 4, 'm-1', 'e'),
-        new Pit('p10', 4, 'm-1', 'd'),
-        new Pit('p11', 4, 'm-1', 'c'),
-        new Pit('p12', 4, 'm-1', 'b'),
-        new Pit('p13', 4, 'm-1', 'a')
+        new Pit('p0', 21, 'store-1'),
+        new Pit('p1', 0, 'm1', 'a'),
+        new Pit('p2', 0, 'm1', 'b'),
+        new Pit('p3', 0, 'm1', 'c'),
+        new Pit('p4', 0, 'm1', 'd'),
+        new Pit('p5', 0, 'm1', 'e'),
+        new Pit('p6', 0, 'm1', 'f'),
+        new Pit('p7', 27, 'store1'),
+        new Pit('p8', 0, 'm-1', 'f'),
+        new Pit('p9', 0, 'm-1', 'e'),
+        new Pit('p10', 0, 'm-1', 'd'),
+        new Pit('p11', 0, 'm-1', 'c'),
+        new Pit('p12', 0, 'm-1', 'b'),
+        new Pit('p13', 0, 'm-1', 'a')
     ]
     turn = -1; 
     winner = null; 
@@ -112,18 +111,6 @@ async function playerClicks(pitElClicked) {
     await dropPebbles(hand, pitInArr);
     checkForWinner();
     render();
-}
-
-// Preview how many pebbles are in each pit
-function handHover(pitElOver) {
-    const pitElId = pitElOver.target.id;
-    const pitInArr = board.find((pit) => pit.pitId === pitElId); 
-    if (pitElId === 'board' || winner !== null) {
-        handEl.style.visibility = 'hidden';
-        return;
-    }
-    handEl.style.visibility = 'visible';
-    handEl.innerText = pitInArr.pebbles;
 }
 
 async function dropPebbles(hand, pit) {
